@@ -1,0 +1,90 @@
+<html>
+	<head>
+	    <title>Chat WebSocket</title>
+	    
+	    <script type="text/javascript">
+
+	        var webSocket = null;
+
+	        function setConnected(connected) {
+
+	            document.getElementById('connect').disabled = connected;
+	            document.getElementById('disconnect').disabled = !connected;
+	            document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+	            document.getElementById('response').innerHTML = '';
+	        }
+
+
+			function connect() {
+				webSocket = new WebSocket('ws://localhost:8080/myHandler');
+				webSocket.onmessage = function(data){
+					showMessageOutput(data.data);
+				}
+				webSocket.onerror = function (data) {
+					console.log("Error " + data.data);
+				}
+				webSocket.onclose = function (data) {
+					console.log("Closed " + data.data);
+				}
+				setConnected(true);
+				console.log("Connected");
+			}
+
+			function showMessage(message) {
+				$("#server-msg").append('<li class="list-group-item">' + message + '</li>');
+			}
+
+	        function disconnect() {
+
+	            if(webSocket != null) {
+	                webSocket.close();
+	            }
+
+	            setConnected(false);
+	            console.log("Disconnected");
+	        }
+
+	        function sendMessage() {
+
+	        	var from = document.getElementById('from').value;
+	            // var text = document.getElementById('text').value;
+	            var text = "ping";
+	            webSocket.send(JSON.stringify({'from':from, 'text':text}));
+	        }
+
+	        function showMessageOutput(messageOutput) {
+
+	            var response = document.getElementById('response');
+	            var p = document.createElement('p');
+	            p.style.wordWrap = 'break-word';
+	            p.appendChild(document.createTextNode(messageOutput));
+	            response.appendChild(p);
+	        }
+
+	    </script>
+	    
+	</head>
+	
+	<body onload="disconnect()">
+
+		<div>
+		
+		
+			<div>
+				<input type="text" id="from" placeholder="Choose a nickname"/>
+			</div>
+			<br />
+		    <div>
+		        <button id="connect" onclick="connect();">Connect</button>
+		        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+		    </div>
+		    <br />
+		    <div id="conversationDiv">
+		        <input type="text" id="text" placeholder="Write a message..."/>
+		        <button id="sendMessage" onclick="sendMessage();">Send</button>
+		        <p id="response"></p>
+		    </div>
+		</div>
+
+	</body>
+</html>

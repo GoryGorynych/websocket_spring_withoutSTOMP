@@ -1,4 +1,4 @@
-package com.example.websocket_spring_example1;
+package com.example.rawwebsocket;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Bean
     public ServletServerContainerFactoryBean createWebSocketContainer() {
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-        container.setMaxSessionIdleTimeout(10000L);
+        container.setMaxSessionIdleTimeout(120000L);
         return container;
     }
 }

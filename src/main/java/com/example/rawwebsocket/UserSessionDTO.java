@@ -17,12 +17,12 @@ public class UserSessionDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserSessionDTO that = (UserSessionDTO) o;
-        return sessionId.equals(that.sessionId) && userId.equals(that.userId);
+        return sessionId.equals(that.sessionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sessionId, userId);
+        return Objects.hash(sessionId);
     }
 
     @Override

@@ -32,9 +32,13 @@ public class MyHandler extends TextWebSocketHandler {
 //                session.close(CloseStatus.SERVICE_OVERLOAD);
             }
         } else {
-            inMessage.setText("OK");
             inMessage.setReturnCode(1);
-            validateGeneralMessage(session, inMessage);
+            if ("ping".equalsIgnoreCase(inMessage.getText())) {
+                inMessage.setText("pong");
+            } else {
+                inMessage.setText("OK");
+                validateGeneralMessage(session, inMessage);
+            }
             if (session.isOpen()) {
                 session.sendMessage(new TextMessage(gson.toJson(inMessage, RawMessage.class)));
             }

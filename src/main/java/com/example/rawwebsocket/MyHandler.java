@@ -29,7 +29,7 @@ public class MyHandler extends TextWebSocketHandler {
                 session.sendMessage(new TextMessage(gson.toJson(inMessage, RawMessage.class)));
             }
             if (inMessage.getReturnCode() > 1) {
-                session.close();
+//                session.close(CloseStatus.SERVICE_OVERLOAD);
             }
         } else {
             inMessage.setText("OK");

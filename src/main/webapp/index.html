@@ -21,6 +21,9 @@
 
 			function connect() {
 				webSocket = new WebSocket('ws://localhost:8080/myHandler');
+				webSocket.onopen = function (data) {
+					sendLoginMessage()
+				}
 				webSocket.onmessage = function(data){
 					showMessageOutput(JSON.parse(data.data));
 				}
@@ -88,7 +91,7 @@
 			<br />
 		    <div>
 		        <button id="connect" onclick="connect();">Connect</button>
-				<button id="sendlogin"  onclick="sendLoginMessage();">SendLogin</button>
+<!--				<button id="sendlogin"  onclick="sendLoginMessage();">SendLogin</button>-->
 		        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
 		    </div>
 		    <br />
